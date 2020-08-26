@@ -5,7 +5,7 @@ Executed right before emitting assets to output dir.
 Requires node.js^12.0.0, webpack 4
 
 
-```
+```javascript
 // webpack.config.js
 
 const WebpackMediaQuerySplitPlugin = require('@gunarssimkuns/webpack-media-query-split-plugin')
