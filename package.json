@@ -1,0 +1,32 @@
+{
+  "name": "@gunarssimkuns/webpack-media-query-split-plugin",
+  "version": "0.0.1",
+  "description": "Webpack 4 plugin for splitting output css by media query",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gunarssimkuns/webpack-media-query-split-plugin.git"
+  },
+  "keywords": [
+    "webpack",
+    "plugin",
+    "media",
+    "query",
+    "split",
+    "css"
+  ],
+  "author": "Gunars Simkuns",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/gunarssimkuns/webpack-media-query-split-plugin/issues"
+  },
+  "homepage": "https://github.com/gunarssimkuns/webpack-media-query-split-plugin#readme",
+  "dependencies": {
+    "css": "^3.0.0",
+    "webpack-sources": "^1.4.3"
+  },
+  "devDependencies": {}
+}
