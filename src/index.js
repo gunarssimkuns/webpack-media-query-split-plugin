@@ -1,5 +1,6 @@
 const pluginName = 'WebpackMediaQuerySplitPlugin'
 const css = require( 'css' )
+const CleanCSS = require( 'clean-css' )
 const { RawSource } = require( 'webpack-sources' )
 
 const log = function () {
@@ -85,6 +86,8 @@ const apply = ({ compiler, options }) => {
                     stylesheet: { rules }
                 } )
 
+                source = new CleanCSS().minify( source ).styles
+
                 let name = filename.replace(/\[(.*?)\]/g, (match) => {
                     const key = match.slice(1, -1)
                     if (key === 'name') return cssAsset.name.split('.')[0]
@@ -130,10 +133,4 @@ class WebpackMediaQuerySplitPlugin {
 
 module.exports = WebpackMediaQuerySplitPlugin
 module.exports.default = WebpackMediaQuerySplitPlugin
-// module.exports.loader = function (source) {
-//     // let callback = this.async()
-
-//     log(source)
-
-//     return source
-// }
+// todo: implement loader
