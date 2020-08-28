@@ -1,10 +1,22 @@
 const { root, parse } = require( 'postcss' )
+const path = require( 'path' )
 const parseQueries = require( './parseQueries' )
 const testMedia = require( './testMedia' )
 const store = require( './store' )
 
+function recursiveIssuer(module)  {
+    if (module.issuer) {
+        return recursiveIssuer( module.issuer )
+    }
+    return module
+}
+
 module.exports = function loader(source, map, meta) {
-    const { queries } = store.options
+    const { queries, filename } = store.options
+
+    // todo: save in chunk / mby push new modules
+    const thisModules = [ ...store.compilation._buildingModules.keys() ].filter( ({resource}) => resource === this.resource )
+    if ( ! (Array.isArray( thisModules ) && thisModules.length) ) return source // ???
     
     const roots = Object.fromEntries( Object.keys( queries ).map( (query) => ([query, root()]) ) )
     const thisRoot = parse( source ) // i could use meta.ast.root here
@@ -20,15 +32,15 @@ module.exports = function loader(source, map, meta) {
         }
     } )
 
+    let { resource } = recursiveIssuer( thisModules[0] )
+    const name = path.basename( resource, path.extname( resource ) )
+
     Object.entries( roots ).forEach( ([query, root]) => {
         this.emitFile(
-            'style-' + query + '.css', // todo: add entry name
+            filename.replace('[name]', name).replace('[query]', query),
             root.toString()
         )
     } )
 
     return thisRoot.toString()
 }
-// todo: read more about pitching
-// module.exports.pitch = function pitch() {
-// }
