@@ -7,17 +7,30 @@ Requires node.js^12.0.0, webpack 4
 
 ```javascript
 // webpack.config.js
-
-const WebpackMediaQuerySplitPlugin = require('@gunarssimkuns/webpack-media-query-split-plugin')
+const MiniCssExtractPlugin = require( 'mini-css-extract-plugin' );
+const WebpackMediaQuerySplitPlugin = require( '@gunarssimkuns/webpack-media-query-split-plugin' )
 
 module.exports = {
+	module: {
+		rules: [
+			{
+				test: /\.s?[ac]ss$/,
+				use: [
+					{ loader: MiniCssExtractPlugin.loader },
+					{ loader: 'css-loader' },
+					{ loader: WebpackMediaQuerySplitPlugin.loader },
+					{ loader: 'postcss-loader' },
+					{ loader: 'sass-loader' },
+				]
+			},
+        ]
+    },
     plugins: [
         new WebpackMediaQuerySplitPlugin({
             queries: {
-                mobile: /\(max-width:767px\)/,
-                tablet: [/\(min-width:768px\)/]
+                mobile: /\(max-width: 767px\)/,
+                tablet: [ /\(min-width: 768px\)/ ]
             },
-            common: 'common', // query name for all styles that do not match query
             filename: '[name]-[query].css'
         })
     ]
